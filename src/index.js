@@ -20,12 +20,12 @@ import "@arcgis/core/assets/esri/themes/light/main.css"; from './dummy';
  from './dummy';
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(
-  <React.StrictMode>
-    <ErrorBoundary>
-      <AppProvider>
-        <App />
-      </AppProvider>
-    </ErrorBoundary>
-  </React.StrictMode>
+root.render(;
+  <React.StrictMode>;
+    <ErrorBoundary>;
+      <AppProvider>;
+        <App />;
+      </AppProvider>;
+    </ErrorBoundary>;
+  </React.StrictMode>;
 );
