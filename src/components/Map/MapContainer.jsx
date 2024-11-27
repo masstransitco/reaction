@@ -1,23 +1,23 @@
 // src/components/Map/MapContainer.jsx
 
-import React, { useEffect, useRef } from 'react';
-import Map from '@arcgis/core/Map';
-import MapView from '@arcgis/core/views/MapView';
-import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
-import './MapContainer.css';
+import React, { useEffect, useRef } from "react";
+import Map from "@arcgis/core/Map";
+import MapView from "@arcgis/core/views/MapView";
+import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
+import "./MapContainer.css";
 
 // Import ArcGIS CSS
-import '@arcgis/core/assets/esri/themes/light/main.css';
+import "@arcgis/core/assets/esri/themes/light/main.css";
 
 const MapContainer = ({ onMapViewLoad }) => {
-  const mapRef = useRef();
+  const mapRef = useRef(null);
 
   useEffect(() => {
     let view;
 
     const initializeMap = async () => {
       const map = new Map({
-        basemap: 'streets-navigation-vector',
+        basemap: "streets-navigation-vector",
       });
 
       view = new MapView({
@@ -37,27 +37,27 @@ const MapContainer = ({ onMapViewLoad }) => {
       // Set the extent to the country level
       view.extent = {
         xmin: -130, // Example min longitude
-        ymin: 24,    // Example min latitude
-        xmax: -60,   // Example max longitude
-        ymax: 50,    // Example max latitude
+        ymin: 24, // Example min latitude
+        xmax: -60, // Example max longitude
+        ymax: 50, // Example max latitude
         spatialReference: { wkid: 4326 },
       };
 
       // Add car locations layer
       const carLayer = new FeatureLayer({
-        url: 'https://your-cartrack-api-endpoint.com/car-locations', // Replace with your actual API endpoint
-        outFields: ['*'],
+        url: "https://your-cartrack-api-endpoint.com/car-locations", // Replace with your actual API endpoint
+        outFields: ["*"],
         popupTemplate: {
-          title: 'Car Location',
-          content: 'Car ID: {car_id}<br>Location: {location}',
+          title: "Car Location",
+          content: "Car ID: {car_id}<br>Location: {location}",
         },
         // Enable clustering
         featureReduction: {
-          type: 'cluster',
-          clusterRadius: '100px',
+          type: "cluster",
+          clusterRadius: "100px",
           popupTemplate: {
-            title: 'Cluster Summary',
-            content: 'You have {cluster_count} cars in this area.',
+            title: "Cluster Summary",
+            content: "You have {cluster_count} cars in this area.",
           },
         },
       });
@@ -65,7 +65,7 @@ const MapContainer = ({ onMapViewLoad }) => {
       map.add(carLayer);
 
       // Handle cluster click to zoom into neighborhood level
-      view.on('click', async (event) => {
+      view.on("click", async (event) => {
         const response = await view.hitTest(event);
         const results = response.results.filter(
           (result) => result.graphic.layer === carLayer

@@ -1,7 +1,8 @@
-// Example in Header.jsx
-import React, { useContext } from 'react';
-import { AppContext } from '../../context/AppContext';
-import './Header.css';
+// src/components/Header/Header.jsx
+
+import React, { useContext } from "react";
+import { AppContext } from "../../context/AppContext";
+import "./Header.css";
 
 const Header = () => {
   const { currentMarkerType, setCurrentMarkerType } = useContext(AppContext);
@@ -15,14 +16,18 @@ const Header = () => {
       <div className="toggle-container">
         <div className="toggle-base"></div>
         <button
-          className={`toggle-button ${currentMarkerType === 'Cars' ? 'active' : ''}`}
-          onClick={() => handleToggle('Cars')}
+          className={`toggle-button ${
+            currentMarkerType === "Cars" ? "active" : ""
+          }`}
+          onClick={() => handleToggle("Cars")}
         >
           Cars
         </button>
         <button
-          className={`toggle-button ${currentMarkerType === 'Stations' ? 'active' : ''}`}
-          onClick={() => handleToggle('Stations')}
+          className={`toggle-button ${
+            currentMarkerType === "Stations" ? "active" : ""
+          }`}
+          onClick={() => handleToggle("Stations")}
         >
           Stations
         </button>
