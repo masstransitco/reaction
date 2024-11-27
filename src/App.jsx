@@ -1,13 +1,13 @@
-import React, { useRef, useState } from "react";
 // src/App.jsx
 
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./components/Home";
-import About from "./components/About";
-import NotFound from "./components/NotFound";
-import MapContainer from "./components/Map/MapContainer";
-import SceneContainer from "./components/Scene/SceneContainer";
-import "./App.css";
+import React, { useEffect, useRef, useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './components/Home';
+import About from './components/About';
+import NotFound from './components/NotFound';
+import MapContainer from './components/Map/MapContainer';
+import SceneContainer from './components/Scene/SceneContainer';
+import './app.css';
 
 function App() {
   const mapViewRef = useRef(null);
@@ -51,14 +51,14 @@ function App() {
                 onMapViewLoad={(mapView) => {
                   mapViewRef.current = mapView;
                   // Listen for camera changes
-                  mapView.watch("camera", handleMapCameraChange);
+                  mapView.watch('camera', handleMapCameraChange);
                 }}
               />
               <SceneContainer
                 onSceneViewLoad={(sceneView) => {
                   sceneViewRef.current = sceneView;
                   // Listen for camera changes
-                  sceneView.watch("camera", handleSceneCameraChange);
+                  sceneView.watch('camera', handleSceneCameraChange);
                 }}
                 onCameraChange={handleSceneCameraChange}
               />
