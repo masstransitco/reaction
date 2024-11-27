@@ -1,12 +1,18 @@
 // src/components/Scene/SceneContainer.jsx
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import WebScene from "@arcgis/core/WebScene";
 import SceneView from "@arcgis/core/views/SceneView";
+import Locate from "@arcgis/core/widgets/Locate";
+import PropTypes from "prop-types";
 import "./SceneContainer.css";
+
+// Import ArcGIS CSS
+import "@arcgis/core/assets/esri/themes/light/main.css";
 
 const SceneContainer = ({ onSceneViewLoad, onCameraChange }) => {
   const sceneRef = useRef(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     let view;
@@ -23,11 +29,12 @@ const SceneContainer = ({ onSceneViewLoad, onCameraChange }) => {
           container: sceneRef.current,
           map: scene,
           camera: {
+            // Replace with initial camera position [longitude, latitude, elevation]
             position: [
-              /* longitude */,
-              /* latitude */,
-              /* elevation */,
-            ], // Replace with initial camera position
+              -98.5795, // Example longitude
+              39.8283,  // Example latitude
+              10000,    // Example elevation in meters
+            ],
             tilt: 0,
             heading: 0,
           },
@@ -50,14 +57,32 @@ const SceneContainer = ({ onSceneViewLoad, onCameraChange }) => {
         // Set the extent to the country level
         view.extent = {
           xmin: -130, // Example min longitude
-          ymin: 24, // Example min latitude
-          xmax: -60, // Example max longitude
-          ymax: 50, // Example max latitude
+          ymin: 24,   // Example min latitude
+          xmax: -60,  // Example max longitude
+          ymax: 50,   // Example max latitude
           spatialReference: { wkid: 4326 },
         };
 
         // Decrease the FOV to 15 degrees
         view.camera.fov = 15;
+
+        // Initialize the Locate widget
+        const locateWidget = new Locate({
+          view: view,
+          useHeadingEnabled: false, // Disable heading
+          goToOverride: function (view, options) {
+            options.target.scale = 1500; // Adjust the zoom scale as needed
+            return view.goTo(options.target);
+          },
+        });
+
+        // Add the Locate widget to the UI
+        view.ui.add(locateWidget, "top-left");
+
+        // Optionally, listen for the locate event to perform additional actions
+        locateWidget.on("locate", (event) => {
+          console.log("User located at: ", event.position);
+        });
 
         // Listen for camera changes to synchronize with the map
         view.watch("camera", (newCamera) => {
@@ -65,8 +90,9 @@ const SceneContainer = ({ onSceneViewLoad, onCameraChange }) => {
             onCameraChange(newCamera);
           }
         });
-      } catch (error) {
-        console.error("Error initializing SceneView:", error);
+      } catch (err) {
+        console.error("Error initializing SceneView:", err);
+        setError("Failed to load the scene. Please try again later.");
       }
     };
 
@@ -80,7 +106,20 @@ const SceneContainer = ({ onSceneViewLoad, onCameraChange }) => {
     };
   }, [onSceneViewLoad, onCameraChange]);
 
-  return <div className="scene-container" ref={sceneRef}></div>;
+  return (
+    <>
+      {error ? (
+        <div className="error-message">{error}</div>
+      ) : (
+        <div className="scene-container" ref={sceneRef}></div>
+      )}
+    </>
+  );
+};
+
+SceneContainer.propTypes = {
+  onSceneViewLoad: PropTypes.func.isRequired,
+  onCameraChange: PropTypes.func.isRequired,
 };
 
 export default SceneContainer;
