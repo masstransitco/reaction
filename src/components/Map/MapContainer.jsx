@@ -23,7 +23,11 @@ const MapContainer = ({ onMapViewLoad }) => {
       view = new MapView({
         container: mapRef.current,
         map: map,
-        center: [/* longitude */, /* latitude */], // Replace with initial center coordinates
+        // Replace with initial center coordinates
+        center: [
+          -98.5795, // Example longitude: Geographic center of the contiguous United States
+          39.8283,  // Example latitude
+        ],
         zoom: 6, // Initial zoom level; adjust as needed
       });
 
@@ -37,9 +41,9 @@ const MapContainer = ({ onMapViewLoad }) => {
       // Set the extent to the country level
       view.extent = {
         xmin: -130, // Example min longitude
-        ymin: 24, // Example min latitude
-        xmax: -60, // Example max longitude
-        ymax: 50, // Example max latitude
+        ymin: 24,   // Example min latitude
+        xmax: -60,  // Example max longitude
+        ymax: 50,   // Example max latitude
         spatialReference: { wkid: 4326 },
       };
 
