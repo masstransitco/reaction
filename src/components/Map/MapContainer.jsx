@@ -74,7 +74,7 @@ const MapContainer = ({ onMapViewLoad }) => {
       const locateWidget = new Locate({
         view: view,
         useHeadingEnabled: false, // Disable heading
-        goToOverride: function(view, options) {
+        goToOverride: function (view, options) {
           options.target.scale = 1500; // Adjust the zoom scale as needed
           return view.goTo(options.target);
         },
