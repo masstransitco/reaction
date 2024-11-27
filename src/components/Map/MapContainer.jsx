@@ -5,7 +5,6 @@ import Map from "@arcgis/core/Map";
 import MapView from "@arcgis/core/views/MapView";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import Locate from "@arcgis/core/widgets/Locate";
-import Graphic from "@arcgis/core/Graphic";
 import PropTypes from "prop-types";
 import "./MapContainer.css";
 
@@ -26,7 +25,7 @@ const MapContainer = ({ onMapViewLoad }) => {
       view = new MapView({
         container: mapRef.current,
         map: map,
-        // Initial center coordinates [longitude, latitude]
+        // Replace with initial center coordinates [longitude, latitude]
         center: [
           -98.5795, // Example longitude: Geographic center of the contiguous United States
           39.8283,  // Example latitude
