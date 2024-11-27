@@ -16,8 +16,8 @@ const Footer = () => {
         </select>
       </div>
       <div className="lock-buttons">
-        <button className="lock-btn" id="lockButtonFooter">⏎··········Lock⏎········</button>
-        <button className="unlock-btn" id="unlockButtonFooter">⏎··········Unlock⏎········</button>
+        <button className="lock-btn" id="lockButtonFooter">⏎··········⏎··········Lock⏎········⏎········</button>
+        <button className="unlock-btn" id="unlockButtonFooter">⏎··········⏎··········Unlock⏎········⏎········</button>
       </div>
     </footer>
   );
