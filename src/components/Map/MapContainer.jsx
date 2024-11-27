@@ -4,6 +4,9 @@ import React, { useEffect, useRef } from "react";
 import Map from "@arcgis/core/Map";
 import MapView from "@arcgis/core/views/MapView";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
+import Locate from "@arcgis/core/widgets/Locate";
+import Graphic from "@arcgis/core/Graphic";
+import PropTypes from "prop-types";
 import "./MapContainer.css";
 
 // Import ArcGIS CSS
@@ -23,7 +26,7 @@ const MapContainer = ({ onMapViewLoad }) => {
       view = new MapView({
         container: mapRef.current,
         map: map,
-        // Replace with initial center coordinates
+        // Initial center coordinates [longitude, latitude]
         center: [
           -98.5795, // Example longitude: Geographic center of the contiguous United States
           39.8283,  // Example latitude
@@ -68,6 +71,24 @@ const MapContainer = ({ onMapViewLoad }) => {
 
       map.add(carLayer);
 
+      // Initialize the Locate widget
+      const locateWidget = new Locate({
+        view: view,
+        useHeadingEnabled: false, // Disable heading
+        goToOverride: function(view, options) {
+          options.target.scale = 1500; // Adjust the zoom scale as needed
+          return view.goTo(options.target);
+        },
+      });
+
+      // Add the Locate widget to the UI
+      view.ui.add(locateWidget, "top-left");
+
+      // Optionally, listen for the locate event to perform additional actions
+      locateWidget.on("locate", (event) => {
+        console.log("User located at: ", event.position);
+      });
+
       // Handle cluster click to zoom into neighborhood level
       view.on("click", async (event) => {
         const response = await view.hitTest(event);
@@ -109,6 +130,10 @@ const MapContainer = ({ onMapViewLoad }) => {
   }, [onMapViewLoad]);
 
   return <div className="map-container" ref={mapRef}></div>;
+};
+
+MapContainer.propTypes = {
+  onMapViewLoad: PropTypes.func.isRequired,
 };
 
 export default MapContainer;
