@@ -2,10 +2,15 @@
 // src/components/Scene/SceneContainer.jsx
 
 import React, { useRef, useState }, { useEffect, useRef } from "react";
+
 import WebScene from "@arcgis/core/WebScene";
+
 import SceneView from "@arcgis/core/views/SceneView";
+
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
-import "./SceneContainer.css";
+
+import "./SceneContainer.css"; from './dummy';
+ from './dummy';
 
 const SceneContainer = ({ onSceneViewLoad, synchronizeWithMapView }) => {
   const sceneRef = useRef();

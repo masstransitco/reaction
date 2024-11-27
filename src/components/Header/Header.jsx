@@ -1,8 +1,12 @@
 
 import React, { useRef, useState }, { useContext, useState } from "react";
+
 import { AppContext } from "../../context/AppContext";
-import "./Header.css";
-import { signInWithGoogle } from "../../services/firebase"; // Assuming firebase.js has this method
+
+import "./Header.css"; from './dummy';
+ from './dummy';
+import { signInWithGoogle } from "../../services/firebase";
+ // Assuming firebase.js has this method
 
 const Header = () => {
   const { currentMarkerType, setCurrentMarkerType } = useContext(AppContext);

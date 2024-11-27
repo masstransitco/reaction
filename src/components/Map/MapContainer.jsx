@@ -2,13 +2,19 @@
 // src/components/Map/MapContainer.jsx
 
 import React, { useRef, useState }, { useEffect, useRef } from "react";
+
 import Map from "@arcgis/core/Map";
+
 import MapView from "@arcgis/core/views/MapView";
+
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
-import "./MapContainer.css";
+
+import "./MapContainer.css"; from './dummy';
+ from './dummy';
 
 // Import ArcGIS CSS
-import "@arcgis/core/assets/esri/themes/light/main.css";
+import "@arcgis/core/assets/esri/themes/light/main.css"; from './dummy';
+ from './dummy';
 
 const MapContainer = ({ onMapViewLoad }) => {
   const mapRef = useRef();
