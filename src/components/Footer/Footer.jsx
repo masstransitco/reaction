@@ -1,79 +1,81 @@
-// src/App.jsx
+// src/components/Footer/Footer.jsx
 
-import React, { useRef, useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./components/Home";
-import About from "./components/About";
-import NotFound from "./components/NotFound";
-import MapContainer from "./components/Map/MapContainer";
-import SceneContainer from "./components/Scene/SceneContainer";
-import Footer from "./components/Footer"; // Import Footer component
-import "./app.css";
+import React, { useEffect, useState } from "react";
+import "./Footer.css";
 
-function App() {
-  const mapViewRef = useRef(null);
-  const sceneViewRef = useRef(null);
-  const [isSyncing, setIsSyncing] = useState(false);
+const Footer = () => {
+  const [vehicles, setVehicles] = useState([]);
+  const [selectedVehicle, setSelectedVehicle] = useState("");
 
-  // Function to handle camera changes from the Map
-  const handleMapCameraChange = (newCamera) => {
-    if (isSyncing) return;
-    setIsSyncing(true);
-    if (sceneViewRef.current) {
-      sceneViewRef.current.goTo(newCamera).then(() => {
-        setIsSyncing(false);
-      });
-    } else {
-      setIsSyncing(false);
-    }
+  useEffect(() => {
+    // Fetch vehicle options dynamically.
+    // Replace this with an actual API call if necessary.
+    const fetchVehicles = async () => {
+      // Example static data. Replace with API call if needed.
+      const vehicleData = [
+        { id: 1, name: "Vehicle A" },
+        { id: 2, name: "Vehicle B" },
+        { id: 3, name: "Vehicle C" },
+      ];
+      setVehicles(vehicleData);
+    };
+
+    fetchVehicles();
+  }, []);
+
+  const handleVehicleChange = (event) => {
+    const vehicleId = event.target.value;
+    setSelectedVehicle(vehicleId);
+    // Implement additional logic based on selected vehicle
+    console.log(`Selected Vehicle ID: ${vehicleId}`);
   };
 
-  // Function to handle camera changes from the Scene
-  const handleSceneCameraChange = (newCamera) => {
-    if (isSyncing) return;
-    setIsSyncing(true);
-    if (mapViewRef.current) {
-      mapViewRef.current.goTo(newCamera).then(() => {
-        setIsSyncing(false);
-      });
-    } else {
-      setIsSyncing(false);
-    }
+  const handleLock = () => {
+    // Implement lock functionality
+    console.log("Lock button clicked");
+  };
+
+  const handleUnlock = () => {
+    // Implement unlock functionality
+    console.log("Unlock button clicked");
   };
 
   return (
-    <Router>
-      <div className="app-container">
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Home>
-                <MapContainer
-                  onMapViewLoad={(mapView) => {
-                    mapViewRef.current = mapView;
-                    // Listen for camera changes
-                    mapView.watch("camera", handleMapCameraChange);
-                  }}
-                />
-                <SceneContainer
-                  onSceneViewLoad={(sceneView) => {
-                    sceneViewRef.current = sceneView;
-                    // Listen for camera changes
-                    sceneView.watch("camera", handleSceneCameraChange);
-                  }}
-                  onCameraChange={handleSceneCameraChange}
-                />
-              </Home>
-            }
-          />
-          <Route path="/about" element={<About />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-        <Footer /> {/* Include Footer component */}
-      </div>
-    </Router>
-  );
-}
+    <footer className="footer">
+      {/* Logo */}
+      <img src="/logo.png" alt="Logo" className="footer-logo" />
 
-export default App;
+      {/* Vehicle Selector */}
+      <div className="dropdown-container">
+        <label htmlFor="vehicleSelector" className="visually-hidden">
+          Select a Vehicle
+        </label>
+        <select
+          id="vehicleSelector"
+          name="vehicleSelector"
+          value={selectedVehicle}
+          onChange={handleVehicleChange}
+        >
+          <option value="">-- Select a Vehicle --</option>
+          {vehicles.map((vehicle) => (
+            <option key={vehicle.id} value={vehicle.id}>
+              {vehicle.name}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* Lock and Unlock Buttons */}
+      <div className="lock-buttons">
+        <button className="lock-btn" onClick={handleLock}>
+          Lock
+        </button>
+        <button className="unlock-btn" onClick={handleUnlock}>
+          Unlock
+        </button>
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;
